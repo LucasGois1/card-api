@@ -8,6 +8,7 @@ import (
 	"github.com/google/uuid"
 	"log"
 	"net/http"
+	"os"
 )
 
 var publisher = events.NewPublisher()
@@ -32,6 +33,15 @@ func helloWorld(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+	args := os.Args[1:]
+
+	if len(args) != 1 {
+		log.Panic("You need to specify which port the server must run.")
+	}
+
+	port := ":" + args[0]
+
 	http.HandleFunc("/api", helloWorld)
-	log.Fatal(http.ListenAndServe(":8080", nil))
+	log.Println("Server is running on port", port)
+	log.Fatal(http.ListenAndServe(port, nil))
 }
