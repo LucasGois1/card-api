@@ -32,14 +32,18 @@ func helloWorld(w http.ResponseWriter, r *http.Request) {
 	w.Write(resp)
 }
 
+const PORT = "8000"
+
 func main() {
 	args := os.Args[1:]
 
+	port := ":"
 	if len(args) != 1 {
-		log.Panic("You need to specify which port the server must run.")
+		log.Println("Port not informed, using default value ", PORT)
+		port += PORT
+	} else {
+		port += args[0]
 	}
-
-	port := ":" + args[0]
 
 	http.HandleFunc("/api", helloWorld)
 	log.Println("Server is running on port", port)
